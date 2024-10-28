@@ -34,7 +34,6 @@ export class ProductsService {
 
 
   update(id: number, updateProductDto: UpdateProductDto) {
-    console.log("Chegamos aqui")
     return this.prismaservice.product.update({
       where: { id },
       data: updateProductDto
@@ -42,6 +41,8 @@ export class ProductsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.prismaservice.product.delete({
+      where: { id },
+    });
   }
 }
