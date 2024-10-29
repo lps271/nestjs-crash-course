@@ -42,16 +42,30 @@ export class ProductsService {
   }
 
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return this.prismaservice.product.update({
-      where: { id },
-      data: updateProductDto
-    });
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    try {
+      return await this.prismaservice.product.update({
+        where: { id },
+        data: updateProductDto
+      });
+    } catch (error) {
+      if(error.code === 'P2025') {
+        throw new NotFoundError(`Product whit ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return this.prismaservice.product.delete({
-      where: { id },
-    });
+  async remove(id: number) {
+    try {
+      return  await this.prismaservice.product.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if(error.code === 'P2025') {
+        throw new NotFoundError(`Product whit ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 }
