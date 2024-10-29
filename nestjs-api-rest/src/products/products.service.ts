@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { NotFoundError } from '../errors';
 
 
 
@@ -26,10 +27,18 @@ export class ProductsService {
 
   
 
-  findOne(id: number) {
-    return this.prismaservice.product.findUnique({
-      where: { id },
-    });
+  async findOne(id: number) {
+    try {
+      return await this.prismaservice.product.findUniqueOrThrow({
+        where: { id },
+      });
+    } catch (error) {
+      if(error.code === 'P2025') {
+        throw new NotFoundError(`Product whit ID ${id} not found`);
+      }
+      throw error;
+    }
+    
   }
 
 
