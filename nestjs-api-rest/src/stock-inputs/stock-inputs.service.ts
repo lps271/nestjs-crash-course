@@ -12,6 +12,7 @@ export class StockInputsService {
     const product = await this.prismaService.product.findUnique({
       where: {id: createStockInputDto.product_id}
     })
+    console.log(product)
 
     if(!product) {
       throw new NotFoundError('Product not found');
@@ -21,7 +22,7 @@ export class StockInputsService {
       data: {
         productId: createStockInputDto.product_id,
         quantity: createStockInputDto.quantity,
-        date: createStockInputDto.date
+        date: new Date(createStockInputDto.date)
       }
     })
   }

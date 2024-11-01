@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsDateString, IsInt, IsNotEmpty, IsPositive } from "class-validator";
 
 export class CreateStockInputDto {
@@ -14,5 +15,6 @@ export class CreateStockInputDto {
 
     @IsDateString()
     @IsNotEmpty()
+    @IsDateString()
     date: string;
 }

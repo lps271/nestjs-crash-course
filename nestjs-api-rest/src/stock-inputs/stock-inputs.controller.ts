@@ -8,6 +8,7 @@ export class StockInputsController {
 
   @Post()
   create(@Body() createStockInputDto: CreateStockInputDto) {
+    console.log('Entramos no controler... proximo passo é o service')
     return this.stockInputsService.create(createStockInputDto);
   }
 
